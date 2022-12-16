@@ -36,9 +36,10 @@ var('t, y')
 def euler_method(
         y_prime_str = input_box('sin(t)', type=str, label="dy/dt = "), 
         y_0 = input_box(1, label='y(t_0) = '), 
-        t_0 = input_box(0,label='t_0 = '), 
-        t_n = input_box(1,label='t_n = '), 
-        n = slider([2^m for m in range(0,10)], default=2, label='# steps: '),
+        t_0 = input_box(0, label='t_0 = '), 
+        t_n = input_box(1, label='t_n = '), 
+        #n = slider([2^m for m in range(0,10)], default=2, label='# steps: '),
+        n = input_box(2, label='(# steps) n = '),
         eul_bool = checkbox(True, label="Show Euler's Method?"), 
         imp_bool = checkbox(True, label="Show Improved Euler's Method?"), 
         rk4_bool = checkbox(True, label="Show RK4 Method?"), 
