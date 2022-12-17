@@ -15,8 +15,8 @@ def ImpEulerMethod(t_0, y_0, del_t, n, f):
     y[0] = y_0
     t = np.linspace(t_0, t_0+n*del_t, n+1)
     for i in range(1,n+1):
-        k1 = f(t[i-1], y[i-1]) # predictor
-        k2 = f(t[i],   y[i] + k1*del_t) # corrector
+        k1 = f(t[i-1], y[i-1]           ) # predictor
+        k2 = f(t[i  ], y[i-1] + k1*del_t) # corrector
         y[i] = y[i-1] + (k1+k2)/2 * del_t # Euler step
     return (y)
 def RK4Method(t_0, y_0, del_t, n, f):
@@ -32,19 +32,23 @@ def RK4Method(t_0, y_0, del_t, n, f):
     return (y)
 
 var('t, y')
-@interact
+@interact#(layout=dict(top=[['y_prime_str'], 
+         #                  ['y_0', 't_0', 't_n'], 
+         #                  ['n'],
+         #                  ['eul_bool', 'imp_bool', 'rk4_bool'],
+         #                  ['ext_bool', 'y_exact_str']] ) )
 def euler_method(
-        y_prime_str = input_box('sin(t)', type=str, label="dy/dt = "), 
-        y_0 = input_box(1, label='y(t_0) = '), 
-        t_0 = input_box(0, label='t_0 = '), 
-        t_n = input_box(1, label='t_n = '), 
-        #n = slider([2^m for m in range(0,10)], default=2, label='# steps: '),
-        n = input_box(2, label='(# steps) n = '),
-        eul_bool = checkbox(True, label="Show Euler's Method?"), 
-        imp_bool = checkbox(True, label="Show Improved Euler's Method?"), 
-        rk4_bool = checkbox(True, label="Show RK4 Method?"), 
-        ext_bool = checkbox(False, label="Use exact solution?"),
-        y_exact_str = input_box('-cos(t)+2.0', type=str, label='y(t) = '), 
+        y_prime_str = input_box('y*(1-y)', type=str, label="dy/dt = ", width=40), 
+        y_0 = input_box(0.1, label='y(t_0) = ', width=10), 
+        t_0 = input_box(  0, label='t_0 = ', width=10), 
+        t_n = input_box( 10, label='t_n = ', width=10), 
+        n = slider([2^m for m in range(0,10)], default=8, label='# steps: '),
+        #n = input_box(2, label='(# steps) n = ', width=10),
+        eul_bool = checkbox(True, label="Euler's Method"), 
+        imp_bool = checkbox(True, label="Improved Euler"), 
+        rk4_bool = checkbox(True, label="RK4"), 
+        ext_bool = checkbox(False, label="Use exact solution"),
+        y_exact_str = input_box('1/(1+9*exp(-t))', type=str, label='y(t) = ', width=40), 
         ):
     
     ww_bool = False # print values & errors on one line to enter into e.g. WeBWorK
@@ -112,17 +116,20 @@ def euler_method(
         y_min=-0.5
     y_mid = (y_max+y_min)/2
     y_r = (y_max-y_min)/2
+    if y_r==0: y_r = 1
     y_max = y_mid + y_r*1.2
     y_min = y_mid - y_r*1.2
-    if (y_max,y_min)==(0,0): 
+    if (y_max,y_min)==(0,0): # maybe not necessary?...
         y_max=1
         y_min=-0.5
+    if np.isnan(y_max) or np.isinf(y_max): y_max = 1
+    if np.isnan(y_min) or np.isinf(y_min): y_min = -0.5
 
     slopes = plot_slope_field(y_prime_fn(t,y), (t,t_0,t_n), 
                               (y,y_min, y_max), color='lightgray')
     y_plt += slopes
         
-    show(y_plt , axes_labels=['t', 'y'], legend_loc="lower right")
+    show(y_plt, axes_labels=['t', 'y'], legend_loc="lower right", ymin=y_min, ymax=y_max)
 
     # put into DataFrame for convenient printing to screen
     pd.options.display.float_format = '{:#0.9G}'.format
@@ -165,19 +172,19 @@ def euler_method(
         print('Formatted for entering into WeBWorK:')
         print()
         if eul_bool: print("Euler values:"         , df_y["Euler"     ].to_string(index=False, header=False).replace('\n',' '))
-        if eul_bool: print("Improved Euler values:", df_y["Imp. Euler"].to_string(index=False, header=False).replace('\n',' '))
-        if eul_bool: print("RK4 values:",            df_y["RK4"       ].to_string(index=False, header=False).replace('\n',' '))
+        if imp_bool: print("Improved Euler values:", df_y["Imp. Euler"].to_string(index=False, header=False).replace('\n',' '))
+        if rk4_bool: print("RK4 values:",            df_y["RK4"       ].to_string(index=False, header=False).replace('\n',' '))
         print()
         if ext_bool:
             if eul_bool: print("Euler errors:"         , df_e["Euler"     ].to_string(index=False, header=False).replace('\n',' '))
-            if eul_bool: print("Improved Euler errors:", df_e["Imp. Euler"].to_string(index=False, header=False).replace('\n',' '))
-            if eul_bool: print("RK4 errors:"           , df_e["RK4"       ].to_string(index=False, header=False).replace('\n',' '))
+            if imp_bool: print("Improved Euler errors:", df_e["Imp. Euler"].to_string(index=False, header=False).replace('\n',' '))
+            if rk4_bool: print("RK4 errors:"           , df_e["RK4"       ].to_string(index=False, header=False).replace('\n',' '))
             print()
         print(sep)
     print()
     print("Values:")
     print(df_y.to_string())
-    if ext_bool:
+    if ext_bool & any((eul_bool, imp_bool, rk4_bool)):
         print()
         print("Errors:")
         print(df_e.to_string())
