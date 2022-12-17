@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 # Thomas Höft, University of St. Thomas
+# hoft@stthomas.edu
 # license: Attribution-NonCommercial-ShareAlike 4.0 International 
 # https://creativecommons.org/licenses/by-nc-sa/4.0/
 def EulerMethod(t_0, y_0, del_t, n, f):
