@@ -52,6 +52,7 @@ def euler_method(
         ext_bool = checkbox(False, label="Use exact solution"),
         y_exact_str = input_box('1/(1+9*exp(-t))', type=str, label='y(t) = ', width=40), 
         ):
+
     print("Hello World!")
     ww_bool = False # print values & errors on one line to enter into e.g. WeBWorK
     #np.set_printoptions(formatter={'float': '{:G}'.format}) # numpy arrays but not numbers
