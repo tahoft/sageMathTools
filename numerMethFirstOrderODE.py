@@ -53,7 +53,7 @@ def euler_method(
         y_exact_str = input_box('1/(1+9*exp(-t))', type=str, label='y(t) = ', width=40), 
         ):
 
-    ww_bool = False # print values & errors on one line to enter into e.g. WeBWorK
+    ww_bool = True # print values & errors on one line to enter into e.g. WeBWorK
     #np.set_printoptions(formatter={'float': '{:G}'.format}) # numpy arrays but not numbers
     print("\n Reminder: use * for multiplication, ** for powers, and exp(...)",
           "for the exponential function. \n")
