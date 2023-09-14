@@ -159,14 +159,14 @@ def euler_method(
     print(sep)
     print() # could've done next little bit w/ numpy arrays instead of DataFrame...
     if ext_bool: print("            y(t_n) = {:#0.9G}".format(float(df_y["True soln"].iloc[-1])))
-    if eul_bool: print("         Euler y_n = {:#0.9G}".format(float(df_y["Euler"].iloc[[-1]])))
-    if imp_bool: print("Improved Euler y_n = {:#0.9G}".format(float(df_y["Imp. Euler"].iloc[[-1]])))
-    if rk4_bool: print("           RK4 y_n = {:#0.9G}".format(float(df_y["RK4"].iloc[[-1]])))
+    if eul_bool: print("         Euler y_n = {:#0.9G}".format(float(df_y["Euler"].iloc[-1])))
+    if imp_bool: print("Improved Euler y_n = {:#0.9G}".format(float(df_y["Imp. Euler"].iloc[-1])))
+    if rk4_bool: print("           RK4 y_n = {:#0.9G}".format(float(df_y["RK4"].iloc[-1])))
     if ext_bool:
         print()
-        if eul_bool: print("         Euler e_n = {:#0.9G}".format(float(df_e["Euler"].iloc[[-1]])))
-        if imp_bool: print("Improved Euler e_n = {:#0.9G}".format(float(df_e["Imp. Euler"].iloc[[-1]])))
-        if rk4_bool: print("           RK4 e_n = {:#0.9G}".format(float(df_e["RK4"].iloc[[-1]])))
+        if eul_bool: print("         Euler e_n = {:#0.9G}".format(float(df_e["Euler"].iloc[-1])))
+        if imp_bool: print("Improved Euler e_n = {:#0.9G}".format(float(df_e["Imp. Euler"].iloc[-1])))
+        if rk4_bool: print("           RK4 e_n = {:#0.9G}".format(float(df_e["RK4"].iloc[-1])))
     print()
     print(sep)
     if ww_bool:
