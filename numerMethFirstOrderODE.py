@@ -158,7 +158,7 @@ def euler_method(
         print()
     print(sep)
     print() # could've done next little bit w/ numpy arrays instead of DataFrame...
-    if ext_bool: print("            y(t_n) = {:#0.9G}".format(float(df_y["True soln"].iloc[[-1]])))
+    if ext_bool: print("            y(t_n) = {:#0.9G}".format(float(df_y["True soln"].iloc[-1])))
     if eul_bool: print("         Euler y_n = {:#0.9G}".format(float(df_y["Euler"].iloc[[-1]])))
     if imp_bool: print("Improved Euler y_n = {:#0.9G}".format(float(df_y["Imp. Euler"].iloc[[-1]])))
     if rk4_bool: print("           RK4 y_n = {:#0.9G}".format(float(df_y["RK4"].iloc[[-1]])))
