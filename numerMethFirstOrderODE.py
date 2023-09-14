@@ -40,9 +40,9 @@ var('t, y')
          #                  ['ext_bool', 'y_exact_str']] ) )
 def euler_method(
         y_prime_str = input_box('y*(1-y)', type=str, label="dy/dt = ", width=40), 
-        y_0 = input_box(0.1, label='y(t_0) = ', width=10), 
-        t_0 = input_box(  0, label='t_0 = ', width=10), 
-        t_n = input_box( 10, label='t_n = ', width=10), 
+        y_0 = input_box(0.1, label='start value: y(t_0) = ', width=10), 
+        t_0 = input_box(  0, label='start time:     t_0 = ', width=10), 
+        t_n = input_box( 10, label='end   time:     t_n = ', width=10), 
         #n = slider([2^m for m in range(0,10)], default=8, label='# steps: '),
         n = slider([1,2,4,8,16,32,64,128,256,512], default=8, label='# steps: '),
         #n = input_box(2, label='(# steps) n = ', width=10),
